@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ExerciseSummary extends StatelessWidget {
-  int index;
-  String date = '';
-  List exercises = [];
-  String time = '';
+class ExerciseCard extends StatelessWidget {
+  final int index;
+  final String date;
+  final List exercises;
+
+  final int time;
 
   // DateSummary({Key? key}, this.date, this.exercises, this.time) super(key: key);
-  ExerciseSummary(
+  ExerciseCard(
       {Key? key,
       required this.index,
       required this.date,
@@ -41,7 +42,7 @@ class ExerciseSummary extends StatelessWidget {
   Widget build(BuildContext context) {
     int index = this.index;
     String date = this.date;
-    String time = this.time;
+    int time = this.time;
 
     return Container(
       width: MediaQuery.of(context).size.width * 0.8,

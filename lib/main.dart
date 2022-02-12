@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import './ExerciseDetail.dart';
-import './component/ExerciseSummary.dart';
+import './ExerciseDetailPage.dart';
+import './class/Exercise.dart';
+import './component/ExerciseCard.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
       home: const Home(),
       getPages: [
         GetPage(name: '/', page: () => Home()),
-        GetPage(name: '/detail/:param', page: () => ExerciseDetail())
+        GetPage(name: '/detail/:param', page: () => ExerciseDetailPage())
       ],
     );
   }
@@ -36,7 +37,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List groupOfExerciseSummary = [
+  List groupOfExercise = [
     {
       'index': 0,
       'date': '2022/02/17',
@@ -45,7 +46,7 @@ class _HomeState extends State<Home> {
         {'name': '스트레칭', 'value': '10min'},
         {'name': '체스트 프레스', 'value': '(avg) 35kg x 5'},
       ],
-      'time': '51+'
+      'time': 51
     },
     {
       'index': 1,
@@ -55,8 +56,17 @@ class _HomeState extends State<Home> {
         {'name': '스트레칭', 'value': '10min'},
         {'name': '체스트 프레스', 'value': '(avg) 35kg x 5'},
       ],
-      'time': '64min'
+      'time': 64
     },
+    ExerciseGroup(
+        2,
+        '2022/02/15',
+        [
+          {'name': '걷기', 'value': '1.6km / 15min'},
+          {'name': '스트레칭', 'value': '10min'},
+          {'name': '체스트 프레스', 'value': '(avg) 35kg x 5'},
+        ],
+        72),
   ];
 
   @override
@@ -76,17 +86,19 @@ class _HomeState extends State<Home> {
                 child: ListView.builder(
                     itemCount: 2,
                     itemBuilder: (BuildContext context, int index) {
-                      return ExerciseSummary(
-                          index: groupOfExerciseSummary[index]['index'],
-                          date: groupOfExerciseSummary[index]['date'],
-                          exercises: groupOfExerciseSummary[index]['exercises'],
-                          time: groupOfExerciseSummary[index]['time']);
+                      return ExerciseCard(
+                          index: groupOfExercise[index]['index'],
+                          date: groupOfExercise[index]['date'],
+                          exercises: groupOfExercise[index]['exercises'],
+                          time: groupOfExercise[index]['time']);
                     })),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Get.toNamed('/detail/new');
+        },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.

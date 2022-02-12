@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class DateSummary extends StatelessWidget {
+class ExerciseSummary extends StatelessWidget {
+  int index;
   String date = '';
   List exercises = [];
   String time = '';
 
   // DateSummary({Key? key}, this.date, this.exercises, this.time) super(key: key);
-  DateSummary(
+  ExerciseSummary(
       {Key? key,
+      required this.index,
       required this.date,
       required this.exercises,
       required this.time})
@@ -36,6 +39,7 @@ class DateSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int index = this.index;
     String date = this.date;
     String time = this.time;
 
@@ -46,7 +50,9 @@ class DateSummary extends StatelessWidget {
           border: Border.all(width: 1, color: Colors.grey),
           borderRadius: const BorderRadius.all(Radius.circular(10.0))),
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          Get.toNamed('/detail/$index');
+        },
         child: Container(
           margin: EdgeInsets.all(12),
           child: Column(

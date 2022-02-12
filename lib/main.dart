@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import './component/DateSummary.dart';
+import './ExerciseDetail.dart';
+import './component/ExerciseSummary.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,27 +19,52 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),
-      home: const MyHomePage(title: 'Health Logger'),
+      home: const Home(),
+      getPages: [
+        GetPage(name: '/', page: () => Home()),
+        GetPage(name: '/detail/:param', page: () => ExerciseDetail())
+      ],
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<Home> createState() => _HomeState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomeState extends State<Home> {
+  List groupOfExerciseSummary = [
+    {
+      'index': 0,
+      'date': '2022/02/17',
+      'exercises': [
+        {'name': '걷기', 'value': '1.6km / 15min'},
+        {'name': '스트레칭', 'value': '10min'},
+        {'name': '체스트 프레스', 'value': '(avg) 35kg x 5'},
+      ],
+      'time': '51+'
+    },
+    {
+      'index': 1,
+      'date': '2022/02/16',
+      'exercises': [
+        {'name': '걷기', 'value': '1.6km / 15min'},
+        {'name': '스트레칭', 'value': '10min'},
+        {'name': '체스트 프레스', 'value': '(avg) 35kg x 5'},
+      ],
+      'time': '64min'
+    },
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Log List',
+          'Logs',
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -50,14 +76,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: ListView.builder(
                     itemCount: 2,
                     itemBuilder: (BuildContext context, int index) {
-                      return DateSummary(
-                          date: '2022/02/17',
-                          exercises: [
-                            {'name': '걷기', 'value': '1.6km / 15min'},
-                            {'name': '스트레칭', 'value': '10min'},
-                            {'name': '체스트 프레스', 'value': '(avg) 35kg x 5'},
-                          ],
-                          time: '51+');
+                      return ExerciseSummary(
+                          index: groupOfExerciseSummary[index]['index'],
+                          date: groupOfExerciseSummary[index]['date'],
+                          exercises: groupOfExerciseSummary[index]['exercises'],
+                          time: groupOfExerciseSummary[index]['time']);
                     })),
           ],
         ),

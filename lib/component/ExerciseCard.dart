@@ -48,7 +48,8 @@ class ExerciseCard extends StatelessWidget {
       width: MediaQuery.of(context).size.width * 0.8,
       margin: const EdgeInsets.fromLTRB(12, 12, 12, 12),
       decoration: BoxDecoration(
-          border: Border.all(width: 1, color: Colors.grey),
+          color: Colors.white,
+          // border: Border.all(width: 1, color: Colors.grey),
           borderRadius: const BorderRadius.all(Radius.circular(10.0))),
       child: InkWell(
         onTap: () {

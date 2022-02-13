@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import './ExerciseDetailPage.dart';
@@ -6,6 +8,11 @@ import './class/Exercise.dart';
 import './component/ExerciseCard.dart';
 
 void main() {
+  LicenseRegistry.addLicense(() async* {
+    final license = await rootBundle.loadString('fonts/NotoSansKR/OFL.txt');
+    yield LicenseEntryWithLineBreaks(['fonts/NotoSansKR'], license);
+  });
+
   runApp(const MyApp());
 }
 
@@ -15,16 +22,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = ThemeData(
-      brightness: Brightness.light,
-      fontFamily: 'Noto Sans KR',
-    );
+    final ThemeData theme =
+        ThemeData(brightness: Brightness.light, fontFamily: 'NotoSansKR');
     return GetMaterialApp(
       title: 'Flutter Demo',
       // theme: ThemeData(
       //   primarySwatch: Colors.orange,
       // ),
       theme: theme.copyWith(
+        scaffoldBackgroundColor: Color(0xfff3f4f6),
         colorScheme: theme.colorScheme.copyWith(
           primary: Color(0xff295c99),
           // secondary: Color(0xffA1C2E3),
@@ -89,7 +95,7 @@ class _HomeState extends State<Home> {
           style: TextStyle(color: Colors.black),
         ),
         // backgroundColor: Theme.of(context).colorScheme.primary,
-        backgroundColor: Color(0xfffafafa),
+        backgroundColor: Color(0xfff3f4f6),
         elevation: 0,
         centerTitle: false,
         leading: Padding(

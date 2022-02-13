@@ -15,10 +15,21 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = ThemeData(
+      brightness: Brightness.light,
+      fontFamily: 'Noto Sans KR',
+    );
     return GetMaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.orange,
+      // theme: ThemeData(
+      //   primarySwatch: Colors.orange,
+      // ),
+      theme: theme.copyWith(
+        colorScheme: theme.colorScheme.copyWith(
+          primary: Color(0xff295c99),
+          // secondary: Color(0xffA1C2E3),
+          secondary: Color(0xff295c99),
+        ),
       ),
       home: const Home(),
       getPages: [
@@ -74,8 +85,18 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Logs',
-          style: TextStyle(color: Colors.white),
+          '짐펜',
+          style: TextStyle(color: Colors.black),
+        ),
+        // backgroundColor: Theme.of(context).colorScheme.primary,
+        backgroundColor: Color(0xfffafafa),
+        elevation: 0,
+        centerTitle: false,
+        leading: Padding(
+          padding: const EdgeInsets.fromLTRB(12, 8, 4, 8),
+          child: Image(
+            image: AssetImage('assets/icon/logoIcon.png'),
+          ),
         ),
       ),
       body: Center(

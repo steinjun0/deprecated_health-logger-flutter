@@ -57,6 +57,18 @@ class ExerciseDetailPage extends StatelessWidget {
             body: Center(
               child: Column(
                 children: [
+                  SizedBox(
+                    height: 23,
+                  ),
+                  FractionallySizedBox(
+                    widthFactor: 0.8,
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'hi',
+                      ),
+                    ),
+                  ),
                   TextButton(
                     onPressed: () => Get.back(),
                     child: Text('${Get.parameters['param']}'),

@@ -9,7 +9,7 @@ class ExerciseCard extends StatelessWidget {
   final int time;
 
   // DateSummary({Key? key}, this.date, this.exercises, this.time) super(key: key);
-  ExerciseCard(
+  const ExerciseCard(
       {Key? key,
       required this.index,
       required this.date,

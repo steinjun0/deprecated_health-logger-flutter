@@ -30,17 +30,26 @@ class MyApp extends StatelessWidget {
       //   primarySwatch: Colors.orange,
       // ),
       theme: theme.copyWith(
-        scaffoldBackgroundColor: Color(0xfff3f4f6),
-        colorScheme: theme.colorScheme.copyWith(
-          primary: Color(0xff295c99),
-          // secondary: Color(0xffA1C2E3),
-          secondary: Color(0xff295c99),
-        ),
-      ),
+          // scaffoldBackgroundColor: Color(0xfff3f4f6),
+          colorScheme: theme.colorScheme.copyWith(
+            primary: Color(0xff295c99),
+            // secondary: Color(0xffA1C2E3),
+            secondary: Color(0xff295c99),
+          ),
+          textTheme: Theme.of(context).textTheme.apply(
+                bodyColor: Color(0xff343D4C),
+                // displayColor: Colors.red,
+              )),
       home: const Home(),
       getPages: [
-        GetPage(name: '/', page: () => Home()),
-        GetPage(name: '/detail/:param', page: () => ExerciseDetailPage())
+        GetPage(
+          name: '/',
+          page: () => Home(),
+        ),
+        GetPage(
+          name: '/detail/:param',
+          page: () => ExerciseDetailPage(),
+        )
       ],
     );
   }
@@ -89,6 +98,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xfff3f4f6),
       appBar: AppBar(
         title: const Text(
           '짐펜',

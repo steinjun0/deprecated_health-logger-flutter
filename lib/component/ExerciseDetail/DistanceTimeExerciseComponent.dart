@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-getInputComponents() {
+import '../../ExerciseDetailPage.dart';
+
+getInputComponents(distanceTextController, timeTextController) {
   return Row(
     children: [
       SizedBox(
@@ -8,28 +10,14 @@ getInputComponents() {
       ),
       Expanded(
         child: FractionallySizedBox(
-          widthFactor: 0.8,
-          child: TextField(
-            decoration: InputDecoration(
-              // contentPadding: EdgeInsets.all(0),
-              isDense: true,
-              border: UnderlineInputBorder(),
-              hintText: '거리(km)',
-            ),
-          ),
-        ),
+            widthFactor: 0.8,
+            child: AutoUnitTextField(distanceTextController, '거리(km)',
+                unit: 'km')),
       ),
       Expanded(
         child: FractionallySizedBox(
           widthFactor: 0.8,
-          child: TextField(
-            decoration: InputDecoration(
-              // contentPadding: EdgeInsets.all(0),
-              isDense: true,
-              border: UnderlineInputBorder(),
-              hintText: '시간(분)',
-            ),
-          ),
+          child: AutoUnitTextField(timeTextController, '시간(분)', unit: '분'),
         ),
       ),
     ],
@@ -37,6 +25,8 @@ getInputComponents() {
 }
 
 DistanceTimeExerciseComponent(distanceTimeExerciseObject) {
+  TextEditingController distanceTextController = TextEditingController();
+  TextEditingController timeTextController = TextEditingController();
   return Padding(
     padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
     child: Column(
@@ -95,7 +85,7 @@ DistanceTimeExerciseComponent(distanceTimeExerciseObject) {
           ],
         ),
         SizedBox(height: 12),
-        getInputComponents()
+        getInputComponents(distanceTextController, timeTextController)
       ],
     ),
   );

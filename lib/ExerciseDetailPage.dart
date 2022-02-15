@@ -5,6 +5,44 @@ import './class/Exercise.dart';
 import './component/ExerciseDetail/DistanceTimeExerciseComponent.dart';
 import './component/ExerciseDetail/WeightExerciseComponent.dart';
 
+class AutoUnitTextField extends StatelessWidget {
+  final TextEditingController controller;
+  final String hintText;
+  String unit = '';
+
+  final FocusNode _focus = FocusNode();
+
+  AutoUnitTextField(this.controller, this.hintText, {Key? key, this.unit = ''})
+      : super(key: key) {
+    _focus.addListener(() {
+      if (_focus.hasFocus) {
+        if (controller.text.length != 0) {
+          controller.text = controller.text
+              .substring(0, controller.text.length - unit.length);
+        }
+      } else {
+        if (controller.text.length != 0) {
+          controller.text += unit;
+        }
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      focusNode: _focus,
+      controller: controller,
+      decoration: InputDecoration(
+        // contentPadding: EdgeInsets.all(0),
+        isDense: true,
+        border: UnderlineInputBorder(),
+        hintText: hintText,
+      ),
+    );
+  }
+}
+
 class ExerciseController extends GetxController {
   ExerciseGroupDetail? exerciseDetail;
 

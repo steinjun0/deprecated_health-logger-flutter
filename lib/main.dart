@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import './ExerciseDetailPage.dart';
-import './class/Exercise.dart';
 import './component/ExerciseCard.dart';
+import 'class/Exercise.dart';
 
 void main() {
   LicenseRegistry.addLicense(() async* {
@@ -63,36 +63,25 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List groupOfExercise = [
-    {
-      'index': 0,
-      'date': '2022/02/17',
-      'exercises': [
-        {'name': '걷기', 'value': '1.6km / 15min'},
-        {'name': '스트레칭', 'value': '10min'},
-        {'name': '체스트 프레스', 'value': '(avg) 35kg x 5'},
-      ],
-      'time': 51
-    },
-    {
-      'index': 1,
-      'date': '2022/02/16',
-      'exercises': [
-        {'name': '걷기', 'value': '1.6km / 15min'},
-        {'name': '스트레칭', 'value': '10min'},
-        {'name': '체스트 프레스', 'value': '(avg) 35kg x 5'},
-      ],
-      'time': 64
-    },
-    ExerciseGroup(
+  final List<ExerciseGroup> exerciseGroupList = [
+    new ExerciseGroup(
         2,
         '2022/02/15',
         [
-          {'name': '걷기', 'value': '1.6km / 15min'},
-          {'name': '스트레칭', 'value': '10min'},
-          {'name': '체스트 프레스', 'value': '(avg) 35kg x 5'},
+          new DistanceTimeExercise('걷기', 1.6, 15),
+          new TimeExercise('스트레칭', 10),
+          new WeightExercise('체스트 프레스', [25, 35], [15, 15], 2)
         ],
         72),
+    new ExerciseGroup(
+        3,
+        '2022/02/18',
+        [
+          new DistanceTimeExercise('걷기', 2.6, 25),
+          new TimeExercise('스트레칭', 13),
+          new WeightExercise('체스트 프레스', [35, 35], [25, 15], 2)
+        ],
+        72)
   ];
 
   @override
@@ -124,10 +113,10 @@ class _HomeState extends State<Home> {
                     itemCount: 2,
                     itemBuilder: (BuildContext context, int index) {
                       return ExerciseCard(
-                          index: groupOfExercise[index]['index'],
-                          date: groupOfExercise[index]['date'],
-                          exercises: groupOfExercise[index]['exercises'],
-                          time: groupOfExercise[index]['time']);
+                          index: exerciseGroupList[index].index,
+                          date: exerciseGroupList[index].date,
+                          exercises: exerciseGroupList[index].exercises,
+                          time: exerciseGroupList[index].totalTime);
                     })),
           ],
         ),

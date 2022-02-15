@@ -90,12 +90,6 @@ class ExerciseDetailPage extends StatelessWidget {
     return Get.parameters['param'] == 'new';
   }
 
-  getNumberRemovedZeroTrailing(number) {
-    RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
-    String s = number.toString().replaceAll(regex, '');
-    return s;
-  }
-
   // components
   getHeaderOfDetailPage() {
     return Column(

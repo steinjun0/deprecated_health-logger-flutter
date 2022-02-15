@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:health_logger/class/Exercise.dart';
 
 class ExerciseCard extends StatelessWidget {
   final int index;
   final String date;
-  final List exercises;
+  final List<Exercise> exercises;
 
   final int time;
 
@@ -18,18 +19,17 @@ class ExerciseCard extends StatelessWidget {
       : super(key: key);
 
   List<Widget> getExercisesTextList() {
-    List exercises = this.exercises;
+    List<Exercise> exercises = this.exercises;
     List<Widget> exercisesTextList = [];
 
-    int index = 1;
     for (var exercise in exercises) {
       exercisesTextList.add(Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("#${index++} ${exercise['name']}"),
-            Text("${exercise['value']}"),
+            Text("${exercise.name}"),
+            Text("${exercise.getResultSummary()}"),
           ],
         ),
       ));

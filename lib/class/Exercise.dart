@@ -1,7 +1,9 @@
+import '../utils.dart' as Utils;
+
 class ExerciseGroup {
   final int index;
   final String date;
-  final List exercises;
+  final List<Exercise> exercises;
   final int totalTime;
 
   ExerciseGroup(this.index, this.date, this.exercises, this.totalTime);
@@ -13,7 +15,7 @@ class ExerciseGroupDetail extends ExerciseGroup {
       : super(index, date, exercises, totalTime);
 }
 
-class Exercise {
+abstract class Exercise {
   final String name;
 
   Exercise(this.name);
@@ -22,6 +24,8 @@ class Exercise {
   String toString() {
     return 'name: ${this.name}';
   }
+
+  String getResultSummary();
 }
 
 class TimeExercise extends Exercise {
@@ -32,6 +36,11 @@ class TimeExercise extends Exercise {
   @override
   String toString() {
     return 'name: ${this.name}\ntime: ${time}';
+  }
+
+  @override
+  String getResultSummary() {
+    return '${Utils.getNumberRemovedZeroTrailing(this.time)}분';
   }
 }
 
@@ -44,6 +53,11 @@ class DistanceTimeExercise extends Exercise {
   @override
   String toString() {
     return 'name: ${this.name}\ndistance: ${distance}\ntime: ${time}';
+  }
+
+  @override
+  String getResultSummary() {
+    return '${Utils.getNumberRemovedZeroTrailing(this.distance)}km / ${Utils.getNumberRemovedZeroTrailing(this.time)}분';
   }
 }
 
@@ -61,5 +75,27 @@ class WeightExercise extends Exercise {
   @override
   String toString() {
     return 'name: ${this.name}\nweight: ${weight.toString()}\ncount: ${count.toString()}\nset: $set';
+  }
+
+  getAverage(List list) {
+    double avg = 0;
+    list.forEach((element) {
+      avg += element;
+    });
+    avg /= list.length;
+    return avg;
+  }
+
+  getAverageWeight() {
+    return Utils.getNumberRemovedZeroTrailing(getAverage(this.weight));
+  }
+
+  getAverageCount() {
+    return Utils.getNumberRemovedZeroTrailing(getAverage(this.count));
+  }
+
+  @override
+  String getResultSummary() {
+    return '${getAverageWeight()}km / ${getAverageCount()}회';
   }
 }

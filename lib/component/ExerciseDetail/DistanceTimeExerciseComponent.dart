@@ -2,7 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../../ExerciseDetailPage.dart';
 
-getInputComponents(distanceTextController, timeTextController) {
+getInputComponents(data, distanceTextController, timeTextController) {
+  if (data['distance'] != '') {
+    distanceTextController.text = data['distance'].toString() + 'km';
+  }
+  if (data['time'] != '') {
+    timeTextController.text = data['time'].toString() + '분';
+  }
+
   return Row(
     children: [
       SizedBox(
@@ -10,14 +17,12 @@ getInputComponents(distanceTextController, timeTextController) {
       ),
       Expanded(
         child: FractionallySizedBox(
-            widthFactor: 0.8,
-            child: AutoUnitTextField(distanceTextController, '거리(km)',
-                unit: 'km')),
+            widthFactor: 0.8, child: AutoUnitTextField('거리(km)', unit: 'km')),
       ),
       Expanded(
         child: FractionallySizedBox(
           widthFactor: 0.8,
-          child: AutoUnitTextField(timeTextController, '시간(분)', unit: '분'),
+          child: AutoUnitTextField('시간(분)', unit: '분'),
         ),
       ),
     ],
@@ -85,7 +90,8 @@ DistanceTimeExerciseComponent(distanceTimeExerciseObject) {
           ],
         ),
         SizedBox(height: 12),
-        getInputComponents(distanceTextController, timeTextController)
+        getInputComponents({'distance': 1, 'time': 10}, distanceTextController,
+            timeTextController),
       ],
     ),
   );

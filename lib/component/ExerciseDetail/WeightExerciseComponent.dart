@@ -3,55 +3,113 @@ import 'package:health_logger/class/Exercise.dart';
 
 import '../../ExerciseDetailPage.dart';
 
-getInputComponents(List data, weightTextControllers, countTextControllers) {
-  List result = [];
+class SetComponent extends StatelessWidget {
+  final data;
+  final index;
+  var updateWeightData;
+  var updateCountData;
+  var weightAutoUnitTextField;
+  var countAutoUnitTextField;
 
-  int index = 1;
-  data.forEach((element) {
-    var weightTextController = TextEditingController();
-    var countTextController = TextEditingController();
-    weightTextControllers.add(weightTextController);
-    countTextControllers.add(countTextController);
+  SetComponent(
+    this.data,
+    this.index, {
+    Key? key,
+  }) : super(key: key) {
+    updateWeightData = (text) {
+      data['weight'] = num.parse(text);
+    };
 
-    if (element['weight'] != '') {
-      weightTextController.text = element['weight'].toString() + 'kg';
+    updateCountData = (text) {
+      data['count'] = num.parse(text);
+    };
+    weightAutoUnitTextField =
+        AutoUnitTextField('무게(kg)', unit: 'kg', onChange: updateWeightData);
+    countAutoUnitTextField =
+        AutoUnitTextField('횟수', unit: '회', onChange: updateCountData);
+
+    var weightTextController = weightAutoUnitTextField.controller;
+    var countTextController = countAutoUnitTextField.controller;
+
+    if (data['weight'].toString() == '0') {
+      weightTextController.text = '';
+    } else if (data['weight'] != '') {
+      weightTextController.text = data['weight'].toString() + 'kg';
     }
 
-    result.add(Padding(
+    if (data['count'].toString() == '0') {
+      countTextController.text = '';
+    } else if (data['count'] != '') {
+      countTextController.text = data['count'].toString() + '회';
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
       padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
       child: Row(
         children: [
           SizedBox(
             width: 4,
           ),
-          Text('$index set'),
+          Text('${index + 1} set'),
           Expanded(
             child: FractionallySizedBox(
-                widthFactor: 0.8,
-                child: AutoUnitTextField(weightTextController, '무게(kg)',
-                    unit: 'kg')),
+                widthFactor: 0.8, child: weightAutoUnitTextField),
           ),
           Expanded(
             child: FractionallySizedBox(
-                widthFactor: 0.8,
-                child: AutoUnitTextField(countTextController, '횟수', unit: '회')),
+                widthFactor: 0.8, child: countAutoUnitTextField),
           ),
         ],
       ),
-    ));
-    index++;
-  });
-  return result;
+    );
+  }
 }
 
-class WeightExerciseComponent extends StatelessWidget {
+addInputComponents(
+  List presentInputComponents,
+) {
+  presentInputComponents.add(
+      SetComponent({'weight': 0, 'count': 0}, presentInputComponents.length));
+}
+
+class WeightExerciseComponent extends StatefulWidget {
   final WeightExercise distanceTimeExerciseObject;
 
   WeightExerciseComponent(this.distanceTimeExerciseObject, {Key? key})
       : super(key: key);
 
+  @override
+  State<WeightExerciseComponent> createState() =>
+      _WeightExerciseComponentState();
+}
+
+class _WeightExerciseComponentState extends State<WeightExerciseComponent> {
   List weightTextControllers = [];
   List countTextControllers = [];
+
+  List setData = [
+    {'weight': 35, 'count': 15},
+    {'weight': 25, 'count': 15},
+  ];
+
+  @override
+  void dispose() {
+    // 텍스트에디팅컨트롤러를 제거하고, 등록된 리스너도 제거된다.
+    weightTextControllers.forEach((element) {
+      element.dispose();
+    });
+    countTextControllers.forEach((element) {
+      element.dispose();
+    });
+    super.dispose();
+  }
+
+  List inputComponents = [
+    SetComponent({'weight': 0, 'count': 0}, 0)
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +133,7 @@ class WeightExerciseComponent extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          distanceTimeExerciseObject.name,
+                          widget.distanceTimeExerciseObject.name,
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.w600),
                         ),
@@ -107,10 +165,16 @@ class WeightExerciseComponent extends StatelessWidget {
             ],
           ),
           SizedBox(height: 12),
-          ...getInputComponents([
-            {'weight': 35, 'count': 15},
-            {'weight': 25, 'count': 15},
-          ], weightTextControllers, countTextControllers)
+          ...inputComponents,
+          // getInputComponents(
+          //     setData, weightTextControllers, countTextControllers),
+          TextButton(
+              onPressed: () {
+                setState(() {
+                  addInputComponents(inputComponents);
+                });
+              },
+              child: Text('세트 추가'))
         ],
       ),
     );

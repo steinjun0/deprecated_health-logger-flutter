@@ -5,24 +5,32 @@ import './class/Exercise.dart';
 import './component/ExerciseDetail/DistanceTimeExerciseComponent.dart';
 import './component/ExerciseDetail/WeightExerciseComponent.dart';
 
-class AutoUnitTextField extends StatelessWidget {
-  final TextEditingController controller;
+class AutoUnitTextField extends StatefulWidget {
   final String hintText;
   String unit = '';
+  final onChange;
+  final controller = TextEditingController();
+  final FocusNode focus = FocusNode();
 
-  final FocusNode _focus = FocusNode();
+  AutoUnitTextField(this.hintText, {Key? key, this.unit = '', this.onChange})
+      : super(key: key) {}
 
-  AutoUnitTextField(this.controller, this.hintText, {Key? key, this.unit = ''})
-      : super(key: key) {
-    _focus.addListener(() {
-      if (_focus.hasFocus) {
-        if (controller.text.length != 0) {
-          controller.text = controller.text
-              .substring(0, controller.text.length - unit.length);
+  @override
+  State<AutoUnitTextField> createState() => _AutoUnitTextFieldState(focus);
+}
+
+class _AutoUnitTextFieldState extends State<AutoUnitTextField> {
+  _AutoUnitTextFieldState(focus) {
+    focus.addListener(() {
+      debugPrint('get in focus listener');
+      if (focus.hasFocus) {
+        if (widget.controller.text.length != 0) {
+          widget.controller.text = widget.controller.text
+              .substring(0, widget.controller.text.length - widget.unit.length);
         }
       } else {
-        if (controller.text.length != 0) {
-          controller.text += unit;
+        if (widget.controller.text.length != 0) {
+          widget.controller.text += widget.unit;
         }
       }
     });
@@ -31,14 +39,15 @@ class AutoUnitTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      focusNode: _focus,
-      controller: controller,
+      focusNode: widget.focus,
+      controller: widget.controller,
       decoration: InputDecoration(
         // contentPadding: EdgeInsets.all(0),
         isDense: true,
         border: UnderlineInputBorder(),
-        hintText: hintText,
+        hintText: widget.hintText,
       ),
+      onChanged: widget.onChange,
     );
   }
 }
